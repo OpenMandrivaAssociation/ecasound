@@ -5,7 +5,7 @@
 
 Summary:	%{Summary}
 Name:		ecasound
-Version: 	2.4.5
+Version: 	2.4.6.1
 Release: 	%mkrel 1
 License: 	GPL
 Group: 		Sound
@@ -14,11 +14,10 @@ Source0: 	http://ecasound.seul.org/download/%{name}-%{version}.tar.bz2
 Source1:        %{name}16.png
 Source2:        %{name}32.png
 Source3:        %{name}48.png
-Patch0:		ecasound-2.4.0-shared.diff
+Patch0:		ecasound-2.4.6.1-shared.diff
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
-BuildRequires:  autoconf2.5
-BuildRequires:  automake1.7
+BuildRequires:  autoconf
 BuildRequires:	arts-devel
 BuildRequires:	jackit-devel
 BuildRequires:	libalsa-devel
@@ -111,7 +110,7 @@ perl -pi -e "s|/lib/|/%{_lib}/|g" configure*
 
 %build
 export WANT_AUTOCONF_2_5=1
-libtoolize --copy --force && aclocal-1.7 && autoconf && automake-1.7 --foreign --add-missing
+libtoolize --copy --force && aclocal && autoconf && automake --foreign --add-missing
 
 export CFLAGS="%{optflags} -fPIC -DPIC"
 export CXXFLAGS="%{optflags} -fPIC -DPIC"
@@ -147,36 +146,6 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_iconsdir}/%{name}.png
 install -m644 %{SOURCE3} -D %{buildroot}%{_liconsdir}/%{name}.png
 
 # Menu
-install -d %{buildroot}%{_menudir}
-cat << EOF > %{buildroot}%{_menudir}/%{name}
-?package(%{name}): needs="text" \
-section="Multimedia/Sound" \
-title="Ecasound" \
-longtitle="%{Summary}" \
-command="%{name} -c" \
-icon="%{name}.png" \
-xdg="true"
-EOF
-
-cat << EOF > %{buildroot}%{_menudir}/ecamonitor
-?package(%{name}): needs="text" \
-section="Multimedia/Sound" \
-title="Eca Monitor" \
-longtitle="%{Summary}" \
-command="ecamonitor" \
-icon="%{name}.png" \
-xdg="true"
-EOF
-
-cat << EOF > %{buildroot}%{_menudir}/ecasignalview
-?package(%{name}): needs="text" \
-section="Multimedia/Sound" \
-title="Eca Signalview" \
-longtitle="%{Summary}" \
-command="ecasignalview" \
-icon="%{name}.png" \
-xdg="true"
-EOF
 
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
@@ -195,7 +164,7 @@ cat > %{buildroot}%{_datadir}/applications/mandriva-ecamonitor.desktop << EOF
 Name=%{name}
 Comment=%{Summary}
 Exec=ecamonitor
-Icon=ecamonitor
+Icon=%{name}
 Terminal=false
 Type=Application
 Categories=X-MandrivaLinux-Multimedia-Sound;
@@ -206,7 +175,7 @@ cat > %{buildroot}%{_datadir}/applications/mandriva-ecasignalview.desktop << EOF
 Name=%{name}
 Comment=%{Summary}
 Exec=ecasignalview
-Icon=ecasignalview
+Icon=%{name}
 Terminal=false
 Type=Application
 Categories=X-MandrivaLinux-Multimedia-Sound;
