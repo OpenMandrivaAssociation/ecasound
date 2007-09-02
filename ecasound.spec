@@ -28,9 +28,7 @@ BuildRequires:	python-devel
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
 BuildRequires:	readline-devel
-%if %mdkversion >= 1020
 BuildRequires:	multiarch-utils >= 1.0.3
-%endif
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-buildroot
 
 %define python_compile_opt python -O -c "import compileall; compileall.compile_dir('.')"
@@ -218,7 +216,6 @@ rm -rf %{buildroot}
 %{_iconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
-%{_menudir}/*
 %{_datadir}/applications/*.desktop
 
 %files -n python-ecasound
@@ -234,10 +231,8 @@ rm -rf %{buildroot}
 
 %files -n %{libname}-devel
 %defattr(-, root, root)
-%if %mdkversion >= 1020
 %multiarch %{multiarch_bindir}/libecasound-config
 %multiarch %{multiarch_bindir}/libecasoundc-config
-%endif
 %{_bindir}/libecasound-config
 %{_bindir}/libecasoundc-config
 %{_includedir}/kvutils/*.h
