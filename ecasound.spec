@@ -29,6 +29,7 @@ BuildRequires:	ruby
 BuildRequires:	ruby-devel
 BuildRequires:	readline-devel
 BuildRequires:	multiarch-utils >= 1.0.3
+BuildRoot: 	%{_tmppath}/%{name}-%{version}-buildroot
 
 %define python_compile_opt python -O -c "import compileall; compileall.compile_dir('.')"
 %define python_compile     python -c "import compileall; compileall.compile_dir('.')"
