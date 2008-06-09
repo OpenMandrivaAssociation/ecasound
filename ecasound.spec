@@ -180,10 +180,8 @@ Categories=X-MandrivaLinux-Multimedia-Sound;
 EOF
 
 
-%if %mdkversion >= 1020
 %multiarch_binaries %{buildroot}%{_bindir}/libecasound-config
 %multiarch_binaries %{buildroot}%{_bindir}/libecasoundc-config
-%endif
 
 %post
 %update_menus
