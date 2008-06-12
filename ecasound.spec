@@ -183,13 +183,17 @@ EOF
 %multiarch_binaries %{buildroot}%{_bindir}/libecasound-config
 %multiarch_binaries %{buildroot}%{_bindir}/libecasoundc-config
 
+%if %mdkversion < 200900
 %post
 %update_menus
 %update_desktop_database
+%endif
 
+%if %mdkversion < 200900
 %postun
 %clean_menus
 %clean_desktop_database
+%endif
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
