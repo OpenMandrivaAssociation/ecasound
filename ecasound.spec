@@ -1,12 +1,13 @@
 %define major 16
 %define libname %mklibname %{name} %{major}
+%define develname %mklibname %{name} -d
 
 %define	Summary	Sound processing, multitrack recording, and mixing tools
 
 Summary:	%{Summary}
 Name:		ecasound
 Version: 	2.4.6.1
-Release: 	%mkrel 1
+Release: 	%mkrel 2
 License: 	GPL
 Group: 		Sound
 URL: 		http://www.eca.cx/ecasound/
@@ -15,6 +16,8 @@ Source1:        %{name}16.png
 Source2:        %{name}32.png
 Source3:        %{name}48.png
 Patch0:		ecasound-2.4.6.1-shared.diff
+Patch1:		ecasound-gcc43.diff
+Patch2:		ecasound-linkage_fix.diff
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
 BuildRequires:  autoconf
@@ -29,7 +32,7 @@ BuildRequires:	ruby
 BuildRequires:	ruby-devel
 BuildRequires:	readline-devel
 BuildRequires:	multiarch-utils >= 1.0.3
-BuildRoot: 	%{_tmppath}/%{name}-%{version}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %define python_compile_opt python -O -c "import compileall; compileall.compile_dir('.')"
 %define python_compile     python -c "import compileall; compileall.compile_dir('.')"
@@ -86,14 +89,15 @@ Provides:       rubyecasound
 %description -n	ruby-ecasound
 Ruby bindings to Ecasound Control Interface (ECI).
 
-%package -n	%{libname}-devel
+%package -n	%{develname}
 Summary: 	Ecasound - development files
 Group: 		Development/Other
-Provides:	lib%{name}-devel %{name}-devel
 Requires:	%{libname} = %{version}
-Obsoletes:	libecasound-devel
+Provides:	lib%{name}-devel = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
+Obsoletes:	%{mklibname ecasound 16 -d}
 
-%description -n	%{libname}-devel
+%description -n	%{develname}
 The ecasound-devel package contains the header files and static
 libraries necessary for building apps like ecawave and
 ecamegapedal that directly link against ecasound libraries.
@@ -102,13 +106,18 @@ ecamegapedal that directly link against ecasound libraries.
 
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p0
 
 # lib64 fix
 perl -pi -e "s|/lib/|/%{_lib}/|g" configure*
 
 %build
 export WANT_AUTOCONF_2_5=1
-libtoolize --copy --force && aclocal && autoconf && automake --foreign --add-missing
+libtoolize --copy --force
+aclocal
+autoconf
+automake --foreign --add-missing
 
 export CFLAGS="%{optflags} -fPIC -DPIC"
 export CXXFLAGS="%{optflags} -fPIC -DPIC"
@@ -235,7 +244,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 /usr/lib/ruby/site_ruby/1.8/*.rb
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-, root, root)
 %multiarch %{multiarch_bindir}/libecasound-config
 %multiarch %{multiarch_bindir}/libecasoundc-config
@@ -247,5 +256,3 @@ rm -rf %{buildroot}
 %{_libdir}/*.so
 %{_libdir}/*.la
 %{_libdir}/*.a
-
-
