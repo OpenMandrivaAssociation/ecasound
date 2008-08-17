@@ -1,4 +1,4 @@
-%define major 16
+%define major 19
 %define libname %mklibname %{name} %{major}
 %define develname %mklibname %{name} -d
 
@@ -6,31 +6,32 @@
 
 Summary:	%{Summary}
 Name:		ecasound
-Version: 	2.4.6.1
-Release: 	%mkrel 2
+Version: 	2.5.0
+Release: 	%mkrel 1
 License: 	GPL
 Group: 		Sound
 URL: 		http://www.eca.cx/ecasound/
-Source0: 	http://ecasound.seul.org/download/%{name}-%{version}.tar.bz2
+Source0: 	http://ecasound.seul.org/download/%{name}-%{version}.tar.gz
 Source1:        %{name}16.png
 Source2:        %{name}32.png
 Source3:        %{name}48.png
 Patch0:		ecasound-2.4.6.1-shared.diff
-Patch1:		ecasound-gcc43.diff
+Patch1:		ecasound-shellbang_fix.diff
 Patch2:		ecasound-linkage_fix.diff
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
-BuildRequires:  autoconf
 BuildRequires:	arts-devel
+BuildRequires:  autoconf
 BuildRequires:	jackit-devel
 BuildRequires:	libalsa-devel
 BuildRequires:	libaudiofile-devel
+BuildRequires:	libsamplerate-devel
 BuildRequires:	libsndfile-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	python-devel
+BuildRequires:	readline-devel
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
-BuildRequires:	readline-devel
 BuildRequires:	multiarch-utils >= 1.0.3
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -131,8 +132,8 @@ export CXXFLAGS="%{optflags} -fPIC -DPIC"
 
 # (oe) the tests dies at "ECA_TEST_REPOSITORY" on cooker as 
 # of Fri Apr 01 2005 but works on 10.1 x86_64
-#%check
-#make check
+%check
+make check
 
 %install
 rm -fr %{buildroot}
@@ -217,7 +218,9 @@ rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-, root, root)
-%{_libdir}/*.so.*
+%{_libdir}/libecasound.so.%{major}*
+%{_libdir}/libecasoundc.so.*
+%{_libdir}/libkvutils.so.*
 
 %files
 %defattr(-,root,root)
@@ -242,7 +245,7 @@ rm -rf %{buildroot}
 
 %files -n ruby-ecasound
 %defattr(-,root,root)
-/usr/lib/ruby/site_ruby/1.8/*.rb
+%{ruby_sitelibdir}/*.rb
 
 %files -n %{develname}
 %defattr(-, root, root)
