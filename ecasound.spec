@@ -1,4 +1,4 @@
-%define major 19
+%define major 20
 %define libname %mklibname %{name} %{major}
 %define develname %mklibname %{name} -d
 
@@ -6,7 +6,7 @@
 
 Summary:	%{Summary}
 Name:		ecasound
-Version: 	2.5.0
+Version: 	2.5.1
 Release: 	%mkrel 1
 License: 	GPL
 Group: 		Sound
