@@ -6,7 +6,7 @@
 
 Summary:	%{Summary}
 Name:		ecasound
-Version: 	2.5.1
+Version: 	2.5.2
 Release: 	%mkrel 1
 License: 	GPL
 Group: 		Sound
