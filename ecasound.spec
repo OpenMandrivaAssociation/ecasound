@@ -6,9 +6,9 @@
 
 Summary:	%{Summary}
 Name:		ecasound
-Version: 	2.5.2
-Release: 	%mkrel 2
-License: 	GPL
+Version: 	2.6.0
+Release: 	%mkrel 1
+License: 	GPLv2+
 Group: 		Sound
 URL: 		http://www.eca.cx/ecasound/
 Source0: 	http://ecasound.seul.org/download/%{name}-%{version}.tar.gz
@@ -20,7 +20,7 @@ Patch1:		ecasound-shellbang_fix.diff
 Patch2:		ecasound-linkage_fix.diff
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
-BuildRequires:	arts-devel
+#BuildRequires:	arts-devel
 BuildRequires:  autoconf
 BuildRequires:	jackit-devel
 BuildRequires:	libalsa-devel
@@ -114,11 +114,7 @@ ecamegapedal that directly link against ecasound libraries.
 perl -pi -e "s|/lib/|/%{_lib}/|g" configure*
 
 %build
-export WANT_AUTOCONF_2_5=1
-libtoolize --copy --force
-aclocal
-autoconf
-automake --foreign --add-missing
+autoreconf -fiv
 
 export CFLAGS="%{optflags} -fPIC -DPIC"
 export CXXFLAGS="%{optflags} -fPIC -DPIC"
@@ -126,6 +122,8 @@ export CXXFLAGS="%{optflags} -fPIC -DPIC"
 %configure2_5x \
     --enable-shared \
     --with-largefile \
+    --with-python-modules=%{pythondir} \
+    --with-python-includes=%{python_includes} \
     --enable-sys-readline
 
 %make
@@ -133,7 +131,7 @@ export CXXFLAGS="%{optflags} -fPIC -DPIC"
 # (oe) the tests dies at "ECA_TEST_REPOSITORY" on cooker as 
 # of Fri Apr 01 2005 but works on 10.1 x86_64
 %check
-make check
+%make check
 
 %install
 rm -fr %{buildroot}
@@ -225,7 +223,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc NEWS COPYING COPYING.GPL COPYING.LGPL README BUGS TODO examples
-%doc Documentation/*.html Documentation/*.txt
+%doc Documentation/*.html
 %{_bindir}/eca*
 #%config(noreplace) %{_sysconfdir}/ecasound/*
 %{_datadir}/%{name}
@@ -238,8 +236,8 @@ rm -rf %{buildroot}
 
 %files -n python-ecasound
 %defattr(-,root,root)
-%{py_platsitedir}/*.so
-%{py_platsitedir}/*.py
+#%{py_platsitedir}/*.so
+#%{py_platsitedir}/*.py
 %{py_platsitedir}/*.pyc
 %{py_platsitedir}/*.pyo
 
