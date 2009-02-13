@@ -121,17 +121,17 @@ export CXXFLAGS="%{optflags} -fPIC -DPIC"
 
 %configure2_5x \
     --enable-shared \
-    --with-largefile \
-    --with-python-modules=%{pythondir} \
-    --with-python-includes=%{python_includes} \
+    --with-largefile=yes \
+    --disable-dependency-tracking \
     --enable-sys-readline
+   
 
 %make
 
 # (oe) the tests dies at "ECA_TEST_REPOSITORY" on cooker as 
 # of Fri Apr 01 2005 but works on 10.1 x86_64
 %check
-%make check
+make check
 
 %install
 rm -fr %{buildroot}
@@ -236,8 +236,8 @@ rm -rf %{buildroot}
 
 %files -n python-ecasound
 %defattr(-,root,root)
-#%{py_platsitedir}/*.so
-#%{py_platsitedir}/*.py
+%{py_platsitedir}/*.so
+%{py_platsitedir}/*.py
 %{py_platsitedir}/*.pyc
 %{py_platsitedir}/*.pyo
 
