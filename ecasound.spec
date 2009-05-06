@@ -18,6 +18,7 @@ Source3:        %{name}48.png
 Patch0:		ecasound-2.4.6.1-shared.diff
 Patch1:		ecasound-shellbang_fix.diff
 Patch2:		ecasound-linkage_fix.diff
+Patch3:		ecaound-2.6.0-link-pyecasound.patch
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
 #BuildRequires:	arts-devel
@@ -109,6 +110,7 @@ ecamegapedal that directly link against ecasound libraries.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
+%patch3 -p1
 
 # lib64 fix
 perl -pi -e "s|/lib/|/%{_lib}/|g" configure*
