@@ -124,6 +124,7 @@ export CXXFLAGS="%{optflags} -fPIC -DPIC"
 
 %configure2_5x \
     --enable-liboil \
+    --enable-pyecasound \
     --disable-dependency-tracking \
     --enable-sys-readline
    
@@ -142,11 +143,11 @@ install -d %{buildroot}%{py_platsitedir}
 
 %makeinstall_std
 
-pushd pyecasound
-%python_compile_opt
-%python_compile
-install *.pyc *.pyo %{buildroot}%{py_platsitedir}
-popd
+#pushd pyecasound
+#%python_compile_opt
+#%python_compile
+#install *.pyc *.pyo %{buildroot}%{py_platsitedir}
+#popd
 
 # Icons
 install -m644 %{SOURCE1} -D %{buildroot}%{_miconsdir}/%{name}.png
@@ -240,8 +241,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{py_platsitedir}/*.so
 %{py_platsitedir}/*.py
-%{py_platsitedir}/*.pyc
-%{py_platsitedir}/*.pyo
+#%{py_platsitedir}/*.pyc
+#%{py_platsitedir}/*.pyo
 
 %files -n ruby-ecasound
 %defattr(-,root,root)
