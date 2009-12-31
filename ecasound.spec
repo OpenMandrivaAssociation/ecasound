@@ -15,13 +15,12 @@ Source0: 	http://ecasound.seul.org/download/%{name}-%{version}.tar.gz
 Source1:        %{name}16.png
 Source2:        %{name}32.png
 Source3:        %{name}48.png
-Patch0:		ecasound-2.4.6.1-shared.diff
+Patch0:		ecasound-2.7.0-shared.diff
 Patch1:		ecasound-shellbang_fix.diff
 Patch2:		ecasound-linkage_fix.diff
 Patch3:		ecaound-2.6.0-link-pyecasound.patch
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
-#BuildRequires:	arts-devel
 BuildRequires:  autoconf
 BuildRequires:	jackit-devel
 BuildRequires:	libalsa-devel
@@ -31,6 +30,8 @@ BuildRequires:	libsndfile-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	python-devel
 BuildRequires:	readline-devel
+BuildRequires:	liboil-devel
+BuildRequires:	liblo-devel
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
 BuildRequires:	multiarch-utils >= 1.0.3
@@ -107,7 +108,7 @@ ecamegapedal that directly link against ecasound libraries.
 %prep
 
 %setup -q
-%patch0 -p1
+%patch0 -p0
 %patch1 -p1
 %patch2 -p0
 %patch3 -p1
@@ -122,8 +123,7 @@ export CFLAGS="%{optflags} -fPIC -DPIC"
 export CXXFLAGS="%{optflags} -fPIC -DPIC"
 
 %configure2_5x \
-    --enable-shared \
-    --with-largefile=yes \
+    --enable-liboil \
     --disable-dependency-tracking \
     --enable-sys-readline
    
