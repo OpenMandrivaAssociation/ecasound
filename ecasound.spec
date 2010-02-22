@@ -6,8 +6,8 @@
 
 Summary:	%{Summary}
 Name:		ecasound
-Version: 	2.7.0
-Release: 	%mkrel 2
+Version: 	2.7.1
+Release: 	%mkrel 1
 License: 	GPLv2+
 Group: 		Sound
 URL: 		http://www.eca.cx/ecasound/
