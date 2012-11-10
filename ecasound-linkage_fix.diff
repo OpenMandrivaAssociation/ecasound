@@ -1,0 +1,11 @@
+--- libecasound/Makefile.am	2008-07-09 08:26:34.000000000 -0400
++++ libecasound/Makefile.am.oden	2008-07-09 08:36:35.000000000 -0400
+@@ -34,7 +34,7 @@
+ eca_libadd =  	$(top_builddir)/libecasound/plugins/libecasound_plugins.la $(ECA_S_EXTRA_LIBS)
+ endif
+ 
+-eca_ldflags = -version-info @LIBECASOUND_VERSION@:0:@LIBECASOUND_VERSION_AGE@
++eca_ldflags = -version-info @LIBECASOUND_VERSION@:0:@LIBECASOUND_VERSION_AGE@ ../kvutils/libkvutils.la
+ 
+ if ECA_AM_DEBUG_MODE
+ libecasound_tester_libs =	$(top_builddir)/libecasound/libecasound_debug.la \

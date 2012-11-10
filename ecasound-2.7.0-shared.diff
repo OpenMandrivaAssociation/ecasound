@@ -1,0 +1,58 @@
+--- kvutils/Makefile.am.orig	2009-04-19 19:10:13.000000000 +0200
++++ kvutils/Makefile.am	2009-12-31 15:04:29.000000000 +0100
+@@ -16,6 +16,8 @@
+ lib_LTLIBRARIES = libkvutils.la
+ endif
+ 
++eca_ldflags = -version-info @LIBKVUTILS_VERSION@:0:@LIBKVUTILS_VERSION_AGE@
++
+ TESTS = libkvutils_tester
+ check_PROGRAMS = $(TESTS)
+ 
+@@ -56,7 +58,7 @@
+ 			kvu_value_queue.h
+ 
+ libkvutils_la_SOURCES = $(kvutil_sources) $(kvutil_headers)
+-libkvutils_la_LDFLAGS = -version-info @LIBKVUTILS_VERSION@:0:@LIBKVUTILS_VERSION_AGE@ -static
++libkvutils_la_LDFLAGS = -export-dynamic $(eca_ldflags)
+ 
+ libkvutils_debug_la_SOURCES = $(libkvutils_la_SOURCES)
+ libkvutils_debug_la_LDFLAGS = $(libkvutils_la_LDFLAGS)
+--- libecasound/Makefile.am.orig	2009-04-19 20:04:27.000000000 +0200
++++ libecasound/Makefile.am	2009-12-31 15:06:09.000000000 +0100
+@@ -363,7 +363,7 @@
+ 
+ libecasound_la_SOURCES = $(ecasound_common1_src) $(ecasound_common2_src)
+ libecasound_debug_la_SOURCES = $(ecasound_common1_src) $(ecasound_common2_src)
+-libecasound_la_LDFLAGS = -export-dynamic $(eca_ldflags) -static
++libecasound_la_LDFLAGS = -export-dynamic $(eca_ldflags)
+ libecasound_la_LIBADD = $(eca_libadd)
+ libecasound_debug_la_LDFLAGS = $(libecasound_la_LDFLAGS)
+ libecasound_debug_la_LIBADD = $(libecasound_la_LIBADD)
+
+--- libecasound/plugins/Makefile.am.shared	2009-11-12 17:21:35.000000000 +0100
++++ libecasound/plugins/Makefile.am	2009-11-12 17:23:27.000000000 +0100
+@@ -105,7 +105,7 @@ plugin_all_sources = 	$(all_af_src) \
+ libecasound_plugins_la_SOURCES          = audioio_dummy.cpp $(plugin_cond_sources)
+ EXTRA_libecasound_plugins_la_SOURCES    = $(plugin_all_sources)
+ libecasound_plugins_la_LIBADD		= $(ECA_S_EXTRA_LIBS)
+-libecasound_plugins_la_LDFLAGS 		= -static
++libecasound_plugins_la_LDFLAGS 		=
+ 
+ libecasound_plugins_debug_la_SOURCES	= $(libecasound_plugins_la_SOURCES)
+ EXTRA_libecasound_plugins_debug_la_SOURCES = $(EXTRA_libecasound_plugins_la_SOURCES)
+
+--- libecasoundc/Makefile.am.shared	2009-11-12 17:25:27.000000000 +0100
++++ libecasoundc/Makefile.am	2009-11-12 17:26:29.000000000 +0100
+@@ -14,9 +14,9 @@ AUTOMAKE_OPTIONS = foreign
+ # !!!
+ # remember to update eca-version.cpp
+ if ECA_AM_DEBUG_MODE
+-eca_ldflags = -version-info @LIBECASOUNDC_VERSION@:0:@LIBECASOUNDC_VERSION_AGE@ -static
++eca_ldflags = -version-info @LIBECASOUNDC_VERSION@:0:@LIBECASOUNDC_VERSION_AGE@
+ else
+-eca_ldflags = -s -version-info @LIBECASOUNDC_VERSION@:0:@LIBECASOUNDC_VERSION_AGE@ -static
++eca_ldflags = -s -version-info @LIBECASOUNDC_VERSION@:0:@LIBECASOUNDC_VERSION_AGE@
+ endif
+ 
+ INCLUDES = -I$(srcdir)

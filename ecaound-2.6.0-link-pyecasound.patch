@@ -1,0 +1,11 @@
+--- ecasound-2.6.0.orig/pyecasound/Makefile.am	2009-01-18 10:35:50.000000000 +0100
++++ ecasound-2.6.0/pyecasound/Makefile.am	2009-05-06 22:12:53.000000000 +0200
+@@ -65,7 +65,7 @@
+ all: pyecasound.so
+ 
+ pyecasound.so: pyecasound.lo
+-	$(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) ${libpyecasound_la_LDFLAGS} -shared -nostartfiles -o pyecasound.so pyecasound.lo $(ecasoundc_libs)
++	$(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) ${libpyecasound_la_LDFLAGS} -shared -nostartfiles -o pyecasound.so pyecasound.lo -lpython2.7 $(ecasoundc_libs)
+ endif
+ 
+ # ----------------------------------------------------------------------
