@@ -1,37 +1,36 @@
-%define	major		22
+%define	major		24
 %define	libname		%mklibname %{name} %{major}
 %define	develname	%mklibname %{name} -d
 
-Summary:		Sound processing, multitrack recording, and mixing tools
+Summary:	Sound processing, multitrack recording, and mixing tools
 Name:		ecasound
-Version:		2.7.2
-Release:		3
+Version:	2.9.0
+Release:	2
 License: 	GPLv2+
 Group:		Sound
 URL: 		http://www.eca.cx/ecasound/
-Source0:		http://ecasound.seul.org/download/%{name}-%{version}.tar.gz
-Source1:		%{name}16.png
-Source2:		%{name}32.png
-Source3:		%{name}48.png
-Patch0:		ecasound-2.7.0-shared.diff
-Patch1:		ecasound-shellbang_fix.diff
-Patch2:		ecasound-linkage_fix.diff
-Patch3:		ecaound-2.6.0-link-pyecasound.patch
-Requires(post): 		desktop-file-utils
-Requires(postun):	 desktop-file-utils
-BuildRequires:	autoconf
-BuildRequires:	jackit-devel
-BuildRequires:	libalsa-devel >= 0.9.0
-BuildRequires:	libaudiofile-devel
-BuildRequires:	libsamplerate-devel
-BuildRequires:	sndfile-devel >= 1.0.0
+Source0:	http://ecasound.seul.org/download/%{name}-%{version}.tar.gz
+Source1:	%{name}16.png
+Source2:	%{name}32.png
+Source3:	%{name}48.png
+Patch0:		%{name}-2.7.0-shared.diff
+Patch1:		%{name}-shellbang_fix.patch
+Patch2:		%{name}-linkage_fix.diff
+Patch3:		%{name}-2.6.0-link-pyecasound.patch
+Requires(post,postun): 	desktop-file-utils
+BuildRequires:	pkgconfig(jack)
+BuildRequires:	pkgconfig(alsa) >= 0.9.0
+BuildRequires:	pkgconfig(audiofile)
+BuildRequires:	pkgconfig(samplerate)
+BuildRequires:	pkgconfig(sndfile) >= 1.0.0
 BuildRequires:	ncurses-devel
-BuildRequires:	python-devel
+BuildRequires:	pkgconfig(python)
 BuildRequires:	readline-devel
 BuildRequires:	oil-devel >= 0.3
-BuildRequires:	liblo-devel
+BuildRequires:	pkgconfig(liblo)
+BuildRequires:	pkgconfig(lilv-0)
 BuildRequires:	ruby
-BuildRequires:	ruby-devel
+BuildRequires:	pkgconfig(ruby-1.9)
 BuildRequires:	multiarch-utils >= 1.0.3
 
 %define	python_compile_opt	python -O -c "import compileall; compileall.compile_dir('.')"
@@ -41,64 +40,101 @@ BuildRequires:	multiarch-utils >= 1.0.3
 Ecasound is a software package designed for multitrack audio processing.
 It can be used for simple tasks like audio playback, recording and format
 conversions, as well as for multitrack effect processing, mixing, recording
-and signal recycling. Ecasound supports a wide range of audio inputs,
-outputs and effect algorithms. Effects and audio objects can be combined in
-various ways, and their parameters can be controlled by operator objects like
-oscillators and MIDI-CCs. A versatile console mode user-interface is
-included in the package.
+and signal recycling. Ecasound supports a wide range of audio inputs, outputs
+and effect algorithms. Effects and audio objects can be combined in various
+ways, and their parameters can be controlled by operator objects like
+oscillators and MIDI-CCs. A versatile console mode user-interface is included
+in the package.
 
+%files
+%doc NEWS COPYING COPYING.GPL COPYING.LGPL README BUGS TODO examples
+%doc Documentation/*.html
+%{_bindir}/eca*
+#%%config(noreplace) %%{_sysconfdir}/ecasound/*
+%{_datadir}/%{name}
+%{_mandir}/man1/*
+%{_mandir}/man5/*
+%{_iconsdir}/%{name}.png
+%{_miconsdir}/%{name}.png
+%{_liconsdir}/%{name}.png
+%{_datadir}/applications/*.desktop
+
+#-------------------------------------------------------------------------------
 
 %package -n %{libname}
-Summary:		Shared libraries for Ecasound
+Summary:	Shared libraries for Ecasound
 Group:		System/Libraries
 
 %description -n %{libname}
 Ecasound is a software package designed for multitrack audio processing.
 It can be used for simple tasks like audio playback, recording and format
 conversions, as well as for multitrack effect processing, mixing, recording
-and signal recycling. Ecasound supports a wide range of audio inputs,
-outputs and effect algorithms. Effects and audio objects can be combined in
-various ways, and their parameters can be controlled by operator objects like
-oscillators and MIDI-CCs. A versatile console mode user-interface is
-included in the package.
-This package contains the shared Ecasound libraries.
+and signal recycling. Ecasound supports a wide range of audio inputs, outputs
+and effect algorithms. Effects and audio objects can be combined in various
+ways, and their parameters can be controlled by operator objects like
+oscillators and MIDI-CCs. A versatile console mode user-interface is included
+in the package. This package contains the shared Ecasound libraries.
 
+%files -n %{libname}
+%{_libdir}/libecasound.so.%{major}*
+%{_libdir}/libecasoundc.so.*
+%{_libdir}/libkvutils.so.*
 
-%package -n python-ecasound
-Summary:		Python bindings to ecasound control interface
+#-------------------------------------------------------------------------------
+
+%package -n python-%{name}
+Summary:	Python bindings to %{name} control interface
 Group:		Sound
-Requires:	%{name} = %{version}-%{release}
-Provides:	pyecasound = %{version}-%{release}
-Obsoletes:	pyecasound < %{version}-%{release}
+Requires:	%{name} = %{version}
+%rename		pyecasound
 
-%description -n python-ecasound
+%description -n python-%{name}
 Python bindings to Ecasound Control Interface (ECI).
 
+%files -n python-ecasound
+#{py_platsitedir}/*.so
+%{py_platsitedir}/*.py
+%{py_platsitedir}/*.pyc
+%{py_platsitedir}/*.pyo
 
-%package -n ruby-ecasound
-Summary:		Ruby bindings to ecasound control interface
+#-------------------------------------------------------------------------------
+
+%package -n ruby-%{name}
+Summary:	Ruby bindings to %{name} control interface
 Group:		Sound
-Requires:	%{name} = %{version}-%{release}
-Provides:	rubyecasound = %{version}-%{release}
-Obsoletes:	rubyecasound < %{version}-%{release}
+Requires:	%{name} = %{version}
+%rename		rubyecasound
 
-%description -n ruby-ecasound
+%description -n ruby-%{name}
 Ruby bindings to Ecasound Control Interface (ECI).
 
+%files -n ruby-ecasound
+%{ruby_sitelibdir}/*.rb
+
+#-------------------------------------------------------------------------------
 
 %package -n %{develname}
-Summary:		Ecasound - development files
+Summary:	Ecasound - development files
 Group:		Development/Other
-Requires: %{libname} = %{version}-%{release}
-Provides: lib%{name}-devel = %{version}-%{release}
-Provides: %{name}-devel = %{version}-%{release}
-Obsoletes: %{_lib}ecasound16-devel < %{version}-%{release}
+Requires:	%{libname} = %{version}
+Provides:	lib%{name}-devel = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
+%rename		%{_lib}ecasound16-devel
 
 %description -n	%{develname}
-The ecasound-devel package contains the header files and static libraries
-necessary for building apps like ecawave and ecamegapedal that directly
-link against ecasound libraries.
+The %{name}-devel package contains the files necessary for building apps like
+ecawave and ecamegapedal that directly link against %{name} libraries.
 
+%files -n %{develname}
+%{_bindir}/libecasound-config
+%{_bindir}/libecasoundc-config
+%{_includedir}/kvutils/*.h
+%{_includedir}/libecasound/*.h
+%{_includedir}/libecasoundc/*.h
+%{_libdir}/*.so
+%{_libdir}/*.a
+
+#-------------------------------------------------------------------------------
 
 %prep
 %setup -q
@@ -113,32 +149,35 @@ perl -pi -e "s|/lib/|/%{_lib}/|g" configure*
 
 %build
 autoreconf -fiv
-export CFLAGS="%{optflags} -fPIC -DPIC"
-export CXXFLAGS="%{optflags} -fPIC -DPIC"
+# It was "%%{optflags} -fPIC -DPIC",
+# but we already have "-fPIC" in %%{optflags}
+export CFLAGS="%{optflags} -DPIC"
+export CXXFLAGS="%{optflags} -DPIC"
 
 %configure2_5x \
     --enable-liboil \
     --enable-pyecasound \
     --disable-dependency-tracking \
+    --disable-liblilv \
     --enable-sys-readline
 
 %make
 
 # (eandry) the tests dies at "pyecasound" on bs submit,
 # but build fine with mdvsys build, so disabling for submission
-#%check
-#make check
+#%%check
+#%%make check
 
 
 %install
 install -d %{buildroot}%{py_platsitedir}
 %makeinstall_std
 
-#pushd pyecasound
-#%python_compile_opt
-#%python_compile
-#install *.pyc *.pyo %{buildroot}%{py_platsitedir}
-#popd
+pushd pyecasound
+%python_compile_opt
+%python_compile
+install *.pyc *.pyo %{buildroot}%{py_platsitedir}
+popd
 
 # Icons
 install -m644 %{SOURCE1} -D %{buildroot}%{_miconsdir}/%{name}.png
@@ -150,7 +189,9 @@ mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/%{name}.desktop << EOF
 [Desktop Entry]
 Name=%{name}
+Name[ru]=%{name}
 Comment=%{Summary}
+Comment[ru]=Инструменты обработки звука, микширования и записи
 Exec=%{name} -c
 Icon=%{name}
 Terminal=false
@@ -161,7 +202,9 @@ EOF
 cat > %{buildroot}%{_datadir}/applications/ecamonitor.desktop << EOF
 [Desktop Entry]
 Name=%{name}
+Name[ru]=%{name}
 Comment=%{Summary}
+Comment[ru]=Инструменты обработки звука, микширования и записи
 Exec=ecamonitor
 Icon=%{name}
 Terminal=false
@@ -172,7 +215,9 @@ EOF
 cat > %{buildroot}%{_datadir}/applications/ecasignalview.desktop << EOF
 [Desktop Entry]
 Name=%{name}
+Name[ru]=%{name}
 Comment=%{Summary}
+Comment[ru]=Инструменты обработки звука, микширования и записи
 Exec=ecasignalview
 Icon=%{name}
 Terminal=false
@@ -180,61 +225,20 @@ Type=Application
 Categories=X-MandrivaLinux-Multimedia-Sound;
 EOF
 
-#%%multiarch_binaries %%{buildroot}%%{_bindir}/libecasound-config
-#%%multiarch_binaries %%{buildroot}%%{_bindir}/libecasoundc-config
-
-# Drop .la archives
-find %{buildroot} -type f -name '*.la' -exec rm -f {} \;
-
-# Install wrongly put the ecasound.rb file in /usr/lib/ruby/1.9.1/site_ruby/1.9/
+# Installer wrongly put the ecasound.rb file in /usr/lib/ruby/1.9.1/site_ruby/1.9/
 # the right one is %%{ruby_sitelibdir}= /usr/lib/ruby/1.9.1/site_ruby/1.9.1/:
 # rename it accordingly
 mv %{buildroot}/usr/lib/ruby/1.9.1/site_ruby/1.9/ %{buildroot}%{ruby_sitelibdir}
 
 
-%files -n %{libname}
-%{_libdir}/libecasound.so.%{major}*
-%{_libdir}/libecasoundc.so.*
-%{_libdir}/libkvutils.so.*
-
-
-%files
-%doc NEWS COPYING COPYING.GPL COPYING.LGPL README BUGS TODO examples
-%doc Documentation/*.html
-%{_bindir}/eca*
-#%config(noreplace) %{_sysconfdir}/ecasound/*
-%{_datadir}/%{name}
-%{_mandir}/man1/*
-%{_mandir}/man5/*
-%{_iconsdir}/%{name}.png
-%{_miconsdir}/%{name}.png
-%{_liconsdir}/%{name}.png
-%{_datadir}/applications/*.desktop
-
-
-%files -n python-ecasound
-%{py_platsitedir}/*.so
-%{py_platsitedir}/*.py
-#%{py_platsitedir}/*.pyc
-#%{py_platsitedir}/*.pyo
-
-
-%files -n ruby-ecasound
-%{ruby_sitelibdir}/*.rb
-
-
-%files -n %{develname}
-%{_bindir}/libecasound-config
-%{_bindir}/libecasoundc-config
-%{_includedir}/kvutils/*.h
-%{_includedir}/libecasound/*.h
-%{_includedir}/libecasoundc/*.h
-%{_libdir}/*.so
-#{_libdir}/*.la
-%{_libdir}/*.a
-
-
 %changelog
+* Sat May 04 2013 Giovanni Mariani <mc2374@mclink.it> 2.9.0-1
+- New release 2.9.0
+- Rediffed P1
+- Added BReq for lilv-devel
+- Dropped support for aRTs (we have it no more) and for liblilv
+  (to avoid build failure with our library)
+
 * Fri Nov 02 2012 Giovanni Mariani <mc2374@mclink.it> 2.7.2-3
 - Dropped BuildRoot, useless %%defines, %%mkrel, %%defattr and
   %%clean section

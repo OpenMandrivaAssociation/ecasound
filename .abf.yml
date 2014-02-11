@@ -1,2 +1,7 @@
+removed_sources:
+  ecasound-2.7.2.tar.gz: 6d5236155e1a1f9a9bc9e63f989baebfb1645a49
 sources:
-  "ecasound-2.7.2.tar.gz": 6d5236155e1a1f9a9bc9e63f989baebfb1645a49
+  ecasound-2.9.0.tar.gz: aed604742968085a8e95cdebb21dc62f1d90d2b5
+  ecasound16.png: 0403b7f27e04fe310dc8f59a1effd3af28de51f4
+  ecasound32.png: 05553c9d99a0c530176c82584faba46a95f2c559
+  ecasound48.png: 39da49a01fa25d762e51ddda005df29f4cbdb082
