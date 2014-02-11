@@ -30,7 +30,7 @@ BuildRequires:	oil-devel >= 0.3
 BuildRequires:	pkgconfig(liblo)
 BuildRequires:	pkgconfig(lilv-0)
 BuildRequires:	ruby
-BuildRequires:	pkgconfig(ruby-1.9)
+BuildRequires:	ruby-devel
 BuildRequires:	multiarch-utils >= 1.0.3
 
 %define	python_compile_opt	python -O -c "import compileall; compileall.compile_dir('.')"
@@ -191,7 +191,7 @@ cat > %{buildroot}%{_datadir}/applications/%{name}.desktop << EOF
 Name=%{name}
 Name[ru]=%{name}
 Comment=%{Summary}
-Comment[ru]=Инструменты обработки звука, микширования и записи
+Comment[ru]=Ð˜Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚Ñ‹ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ Ð·Ð²ÑƒÐºÐ°, Ð¼Ð¸ÐºÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¸ Ð·Ð°Ð¿Ð¸ÑÐ¸
 Exec=%{name} -c
 Icon=%{name}
 Terminal=false
@@ -204,7 +204,7 @@ cat > %{buildroot}%{_datadir}/applications/ecamonitor.desktop << EOF
 Name=%{name}
 Name[ru]=%{name}
 Comment=%{Summary}
-Comment[ru]=Инструменты обработки звука, микширования и записи
+Comment[ru]=Ð˜Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚Ñ‹ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ Ð·Ð²ÑƒÐºÐ°, Ð¼Ð¸ÐºÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¸ Ð·Ð°Ð¿Ð¸ÑÐ¸
 Exec=ecamonitor
 Icon=%{name}
 Terminal=false
@@ -217,7 +217,7 @@ cat > %{buildroot}%{_datadir}/applications/ecasignalview.desktop << EOF
 Name=%{name}
 Name[ru]=%{name}
 Comment=%{Summary}
-Comment[ru]=Инструменты обработки звука, микширования и записи
+Comment[ru]=Ð˜Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚Ñ‹ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ Ð·Ð²ÑƒÐºÐ°, Ð¼Ð¸ÐºÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¸ Ð·Ð°Ð¿Ð¸ÑÐ¸
 Exec=ecasignalview
 Icon=%{name}
 Terminal=false
@@ -256,7 +256,7 @@ mv %{buildroot}/usr/lib/ruby/1.9.1/site_ruby/1.9/ %{buildroot}%{ruby_sitelibdir}
 + Revision: 575120
 - New version 2.7.2
 
-* Mon Mar 01 2010 Götz Waschk <waschk@mandriva.org> 2.7.1-2mdv2010.1
+* Mon Mar 01 2010 GÃ¶tz Waschk <waschk@mandriva.org> 2.7.1-2mdv2010.1
 + Revision: 512889
 - rebuild for new libjack
 
@@ -264,7 +264,7 @@ mv %{buildroot}/usr/lib/ruby/1.9.1/site_ruby/1.9/ %{buildroot}%{ruby_sitelibdir}
 + Revision: 509625
 - update to new version 2.7.1
 
-* Wed Jan 27 2010 Götz Waschk <waschk@mandriva.org> 2.7.0-2mdv2010.1
+* Wed Jan 27 2010 GÃ¶tz Waschk <waschk@mandriva.org> 2.7.0-2mdv2010.1
 + Revision: 497124
 - rebuild
 
@@ -281,7 +281,7 @@ mv %{buildroot}/usr/lib/ruby/1.9.1/site_ruby/1.9/ %{buildroot}%{ruby_sitelibdir}
 - disable arts support
 - update file list
 
-  + Jérôme Brenier <incubusss@mandriva.org>
+  + JÃ©rÃ´me Brenier <incubusss@mandriva.org>
     - update to new version 2.7.0
     - rediff P0
 
@@ -352,7 +352,7 @@ mv %{buildroot}/usr/lib/ruby/1.9.1/site_ruby/1.9/ %{buildroot}%{ruby_sitelibdir}
   + Lenny Cartier <lenny@mandriva.com>
     - Rebuild for dependencies
 
-  + Nicolas Lécureuil <neoclust@mandriva.org>
+  + Nicolas LÃ©cureuil <neoclust@mandriva.org>
     - Rebuild against new python
     - Import ecasound
 
@@ -376,7 +376,7 @@ mv %{buildroot}/usr/lib/ruby/1.9.1/site_ruby/1.9/ %{buildroot}%{ruby_sitelibdir}
 - fixed the ruby lib dir after peeking at the eruby spec 
   file... should fix x86_64 build..., duh!
 
-* Thu Aug 18 2005 Nicolas L�cureuil <neoclust@mandriva.org> 2.4.2-1mdk
+* Thu Aug 18 2005 Nicolas Lécureuil <neoclust@mandriva.org> 2.4.2-1mdk
 - New release 2.4.2
 
 * Sun Jun 19 2005 Oden Eriksson <oeriksson@mandriva.com> 2.4.1-1mdk
