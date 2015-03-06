@@ -175,8 +175,8 @@ install -d %{buildroot}%{py2_platsitedir}
 %makeinstall_std
 
 pushd pyecasound
-%python2_compile_opt
-%python2_compile
+%python_compile_opt
+%python_compile
 install *.pyc *.pyo %{buildroot}%{py_platsitedir}
 popd
 
