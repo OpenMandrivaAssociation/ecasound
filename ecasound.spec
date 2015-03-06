@@ -160,7 +160,7 @@ PYTHONPATH=/usr/bin/python2 %configure \
     --enable-pyecasound \
     --disable-dependency-tracking \
     --disable-liblilv \
-    --enable-sys-readline
+    --enable-sys-readline \
     --with-python-includes=%{_includedir}/python2.7 \
     --with-python-modules=%{_libdir}/python2.7
 
