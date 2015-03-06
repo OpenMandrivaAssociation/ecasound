@@ -147,7 +147,7 @@ perl -pi -e "s|/lib/|/%{_lib}/|g" configure*
 
 
 %build
-autoreconf -fiv
+#autoreconf -fiv
 # It was "%%{optflags} -fPIC -DPIC",
 # but we already have "-fPIC" in %%{optflags}
 export CFLAGS="%{optflags} -DPIC"
@@ -155,12 +155,14 @@ export CXXFLAGS="%{optflags} -DPIC"
 ln -s %{_bindir}/python2 python
 export PATH=`pwd`:$PATH
 
-%configure \
+PYTHONPATH=/usr/bin/python2 %configure \
     --enable-liboil \
     --enable-pyecasound \
     --disable-dependency-tracking \
     --disable-liblilv \
     --enable-sys-readline
+    --with-python-includes=%{_includedir}/python2.7 \
+    --with-python-modules=%{_libdir}/python2.7
 
 %make
 
@@ -177,8 +179,12 @@ install -d %{buildroot}%{py2_platsitedir}
 pushd pyecasound
 %python_compile_opt
 %python_compile
-install *.pyc *.pyo %{buildroot}%{py_platsitedir}
+install *.pyc *.pyo %{buildroot}%{py2_platsitedir}
 popd
+
+sed -i 's:bin/env python:bin/env python2:' \
+	"%{buildroot}%{_bindir}/ecamonitor"
+
 
 # Icons
 install -m644 %{SOURCE1} -D %{buildroot}%{_miconsdir}/%{name}.png
