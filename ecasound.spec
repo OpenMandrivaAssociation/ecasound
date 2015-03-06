@@ -24,7 +24,7 @@ BuildRequires:	pkgconfig(audiofile)
 BuildRequires:	pkgconfig(samplerate)
 BuildRequires:	pkgconfig(sndfile) >= 1.0.0
 BuildRequires:	ncurses-devel
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python2)
 BuildRequires:	readline-devel
 BuildRequires:	oil-devel >= 0.3
 BuildRequires:	pkgconfig(liblo)
@@ -50,7 +50,6 @@ in the package.
 %doc NEWS COPYING COPYING.GPL COPYING.LGPL README BUGS TODO examples
 %doc Documentation/*.html
 %{_bindir}/eca*
-#%%config(noreplace) %%{_sysconfdir}/ecasound/*
 %{_datadir}/%{name}
 %{_mandir}/man1/*
 %{_mandir}/man5/*
@@ -86,16 +85,16 @@ in the package. This package contains the shared Ecasound libraries.
 Summary:	Python bindings to %{name} control interface
 Group:		Sound
 Requires:	%{name} = %{version}
+Requires:	python2
 %rename		pyecasound
 
 %description -n python-%{name}
 Python bindings to Ecasound Control Interface (ECI).
 
 %files -n python-ecasound
-#{py_platsitedir}/*.so
-%{py_platsitedir}/*.py
-%{py_platsitedir}/*.pyc
-%{py_platsitedir}/*.pyo
+%{py2_platsitedir}/*.py
+%{py2_platsitedir}/*.pyc
+%{py2_platsitedir}/*.pyo
 
 #-------------------------------------------------------------------------------
 
@@ -153,8 +152,10 @@ autoreconf -fiv
 # but we already have "-fPIC" in %%{optflags}
 export CFLAGS="%{optflags} -DPIC"
 export CXXFLAGS="%{optflags} -DPIC"
+ln -s %{_bindir}/python2 python
+export PATH=`pwd`:$PATH
 
-%configure2_5x \
+%configure \
     --enable-liboil \
     --enable-pyecasound \
     --disable-dependency-tracking \
@@ -170,12 +171,12 @@ export CXXFLAGS="%{optflags} -DPIC"
 
 
 %install
-install -d %{buildroot}%{py_platsitedir}
+install -d %{buildroot}%{py2_platsitedir}
 %makeinstall_std
 
 pushd pyecasound
-%python_compile_opt
-%python_compile
+%python2_compile_opt
+%python2_compile
 install *.pyc *.pyo %{buildroot}%{py_platsitedir}
 popd
 
@@ -230,184 +231,4 @@ EOF
 # rename it accordingly
 mv %{buildroot}/usr/lib/ruby/1.9.1/site_ruby/1.9/ %{buildroot}%{ruby_sitelibdir}
 
-
-%changelog
-* Sat May 04 2013 Giovanni Mariani <mc2374@mclink.it> 2.9.0-1
-- New release 2.9.0
-- Rediffed P1
-- Added BReq for lilv-devel
-- Dropped support for aRTs (we have it no more) and for liblilv
-  (to avoid build failure with our library)
-
-* Fri Nov 02 2012 Giovanni Mariani <mc2374@mclink.it> 2.7.2-3
-- Dropped BuildRoot, useless %%defines, %%mkrel, %%defattr and
-  %%clean section
-- Fixed BReq for libsndfile and liboil devel package
-- Removed .la files
-- Removed deprecated %%multiarch macros
-- Fixed wrong placement for ruby files
-- Fixed file lists
-
-* Fri Nov 19 2010 Funda Wang <fwang@mandriva.org> 2.7.2-2mdv2011.0
-+ Revision: 598991
-- rebuild for py2.7
-
-* Wed Sep 01 2010 Emmanuel Andry <eandry@mandriva.org> 2.7.2-1mdv2011.0
-+ Revision: 575120
-- New version 2.7.2
-
-* Mon Mar 01 2010 GÃ¶tz Waschk <waschk@mandriva.org> 2.7.1-2mdv2010.1
-+ Revision: 512889
-- rebuild for new libjack
-
-* Mon Feb 22 2010 Frederik Himpe <fhimpe@mandriva.org> 2.7.1-1mdv2010.1
-+ Revision: 509625
-- update to new version 2.7.1
-
-* Wed Jan 27 2010 GÃ¶tz Waschk <waschk@mandriva.org> 2.7.0-2mdv2010.1
-+ Revision: 497124
-- rebuild
-
-* Thu Dec 31 2009 Emmanuel Andry <eandry@mandriva.org> 2.7.0-1mdv2010.1
-+ Revision: 484471
-- disable make check, OK on cluster but fails when submitted
-- fix pyecasound build
-- rediff p0
-- BR liboil-devel and liblo-devel
-- fix configure options
-- New version 2.6.0
-- fix license
-- use autoreconf
-- disable arts support
-- update file list
-
-  + JÃ©rÃ´me Brenier <incubusss@mandriva.org>
-    - update to new version 2.7.0
-    - rediff P0
-
-  + Oden Eriksson <oeriksson@mandriva.com>
-    - rebuild
-
-  + Guillaume Rousse <guillomovitch@mandriva.org>
-    - rebuild for latest readline
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - rebuild
-
-  + Frederik Himpe <fhimpe@mandriva.org>
-    - Fix underlinkingin pyecasound
-
-* Sat Jan 03 2009 Funda Wang <fwang@mandriva.org> 2.5.2-2mdv2009.1
-+ Revision: 323631
-- rebuild
-
-* Sun Aug 24 2008 Oden Eriksson <oeriksson@mandriva.com> 2.5.2-1mdv2009.0
-+ Revision: 275506
-- 2.5.2
-
-* Thu Aug 21 2008 Oden Eriksson <oeriksson@mandriva.com> 2.5.1-1mdv2009.0
-+ Revision: 274661
-- 2.5.1
-- new major again (20)
-
-* Sun Aug 17 2008 Oden Eriksson <oeriksson@mandriva.com> 2.5.0-1mdv2009.0
-+ Revision: 272891
-- 2.5.0
-- drop the gcc43 patch, it's fixed with this version
-- fix shellbang
-
-* Wed Jul 09 2008 Oden Eriksson <oeriksson@mandriva.com> 2.4.6.1-2mdv2009.0
-+ Revision: 232974
-- added gcc43 and linkage fixes
-- fix devel package naming
-
-  + Pixel <pixel@mandriva.com>
-    - rpm filetriggers deprecates update_menus/update_scrollkeeper/update_mime_database/update_icon_cache/update_desktop_database/post_install_gconf_schemas
-    - do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
-
-  + Olivier Blin <oblin@mandriva.com>
-    - restore BuildRoot
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - kill re-definition of %%buildroot on Pixel's request
-
-* Sun Sep 02 2007 Emmanuel Andry <eandry@mandriva.org> 2.4.6.1-1mdv2008.0
-+ Revision: 78215
-- drop old menu
-- drop old distro conditionnal
-- New version
-- rediff patch0
-- fix icons
-
-
-* Sun Feb 18 2007 Emmanuel Andry <eandry@mandriva.org> 2.4.5-1mdv2007.0
-+ Revision: 122210
-- New version 2.4.5
-- disable check (python tests fail)
-
-  + Oden Eriksson <oeriksson@mandriva.com>
-    - drop ruby macros, the bs can't cope with that
-    - rebuild
-
-  + Lenny Cartier <lenny@mandriva.com>
-    - Rebuild for dependencies
-
-  + Nicolas LÃ©cureuil <neoclust@mandriva.org>
-    - Rebuild against new python
-    - Import ecasound
-
-* Fri Aug 04 2006 Oden Eriksson <oeriksson@mandriva.com> 2.4.4-4mdv2007.0
-- fix deps
-
-* Mon Jul 31 2006 Oden Eriksson <oeriksson@mandriva.com> 2.4.4-3mdv2007.0
-- fix #19020
-- fix xdg menu
-
-* Sun Mar 05 2006 Michael Scherer <misc@mandriva.org> 2.4.4-2mdk
-- use new python macro
-- provides/obsoletes ruby package, fix #19021 
-- uncomment make check
-
-* Sat Jan 28 2006 Austin Acton <austin@mandriva.org> 2.4.4-1mdk
-- New release 2.4.4
-- major 16
-
-* Thu Nov 03 2005 Oden Eriksson <oeriksson@mandriva.com> 2.4.2-2mdk
-- fixed the ruby lib dir after peeking at the eruby spec 
-  file... should fix x86_64 build..., duh!
-
-* Thu Aug 18 2005 Nicolas Lécureuil <neoclust@mandriva.org> 2.4.2-1mdk
-- New release 2.4.2
-
-* Sun Jun 19 2005 Oden Eriksson <oeriksson@mandriva.com> 2.4.1-1mdk
-- 2.4.1
-- fix deps
-- drop obsolete patches
-
-* Sat Apr 02 2005 Oden Eriksson <oeriksson@mandrakesoft.com> 2.4.0-1mdk
-- 2.4.0
-- added missing code (P0)
-- make it compile on amd64
-- make shared libraries
-- use the %%mkrel macro
-- fix python-naming-policy-not-applied rpmlint error
-- fix possible future ruby-naming-policy-not-applied rpmlint error
-
-* Mon Jan 31 2005 Oden Eriksson <oeriksson@mandrakesoft.com> 2.3.5-2mdk
-- fix deps and conditional %%multiarch
-
-* Thu Nov 11 2004 Austin Acton <austin@mandrake.org> 2.3.5-1mdk
-- 2.3.5
-
-* Sat Oct 30 2004 Austin Acton <austin@mandrake.org> 2.3.4-1mdk
-- 2.3.4
-- source URL
-
-* Wed Jun 09 2004 Austin Acton <austin@mandrake.org> 2.3.3-2mdk
-- buildrequires ruby
-
-* Wed May 05 2004 Austin Acton <austin@mandrake.org> 2.3.3-1mdk
-- 2.3.3
-- delib buildrequires
-- configure 2.5
 
