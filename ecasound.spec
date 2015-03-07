@@ -147,7 +147,7 @@ perl -pi -e "s|/lib/|/%{_lib}/|g" configure*
 
 
 %build
-#autoreconf -fiv
+autoreconf -fiv
 # It was "%%{optflags} -fPIC -DPIC",
 # but we already have "-fPIC" in %%{optflags}
 export CFLAGS="%{optflags} -DPIC"
