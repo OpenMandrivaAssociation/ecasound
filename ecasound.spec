@@ -131,7 +131,7 @@ ecawave and ecamegapedal that directly link against %{name} libraries.
 %{_includedir}/libecasound/*.h
 %{_includedir}/libecasoundc/*.h
 %{_libdir}/*.so
-%{_libdir}/*.a
+
 
 #-------------------------------------------------------------------------------
 
@@ -174,7 +174,7 @@ export PATH=`pwd`:$PATH
 
 %install
 install -d %{buildroot}%{py2_platsitedir}
-%makeinstall_std
+%makeinstall_std ECA_S_RUBY_SITEDIR="%{ruby_sitelibdir}"
 
 pushd pyecasound
 %python_compile_opt
