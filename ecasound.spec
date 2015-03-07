@@ -4,8 +4,8 @@
 
 Summary:	Sound processing, multitrack recording, and mixing tools
 Name:		ecasound
-Version:	2.9.0
-Release:	3
+Version:	2.9.1
+Release:	1
 License: 	GPLv2+
 Group:		Sound
 URL: 		http://www.eca.cx/ecasound/
@@ -33,8 +33,8 @@ BuildRequires:	ruby
 BuildRequires:	ruby-devel
 BuildRequires:	multiarch-utils >= 1.0.3
 
-%define	python_compile_opt	python -O -c "import compileall; compileall.compile_dir('.')"
-%define	python_compile		python -c "import compileall; compileall.compile_dir('.')"
+%define	python_compile_opt	python2 -O -c "import compileall; compileall.compile_dir('.')"
+%define	python_compile		python2 -c "import compileall; compileall.compile_dir('.')"
 
 %description
 Ecasound is a software package designed for multitrack audio processing.
@@ -147,7 +147,7 @@ perl -pi -e "s|/lib/|/%{_lib}/|g" configure*
 
 
 %build
-autoreconf -fiv
+#autoreconf -fiv
 # It was "%%{optflags} -fPIC -DPIC",
 # but we already have "-fPIC" in %%{optflags}
 export CFLAGS="%{optflags} -DPIC"
