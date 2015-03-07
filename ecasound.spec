@@ -235,6 +235,6 @@ EOF
 # Installer wrongly put the ecasound.rb file in /usr/lib/ruby/1.9.1/site_ruby/1.9/
 # the right one is %%{ruby_sitelibdir}= /usr/lib/ruby/1.9.1/site_ruby/1.9.1/:
 # rename it accordingly
-mv %{buildroot}/usr/lib/ruby/2.2.0/site_ruby/2.2/ %{buildroot}%{ruby_sitelibdir}
+#mv %{buildroot}/usr/lib/ruby/2.2.0/site_ruby/2.2/ %{buildroot}%{ruby_sitelibdir}
 
 
