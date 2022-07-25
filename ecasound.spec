@@ -149,29 +149,18 @@ perl -pi -e "s|/lib/|/%{_lib}/|g" configure*
 %build
 export CC=gcc
 export CXX=g++
-autoreconf -fiv
+#autoreconf -fiv
 # It was "%%{optflags} -fPIC -DPIC",
 # but we already have "-fPIC" in %%{optflags}
-export CFLAGS="%{optflags} -DPIC"
-export CXXFLAGS="%{optflags} -DPIC"
-ln -s %{_bindir}/python2 python
-export PATH=`pwd`:$PATH
+#export CFLAGS="%{optflags} -DPIC"
+#export CXXFLAGS="%{optflags} -DPIC"
+#ln -s %{_bindir}/python2 python
+#export PATH=`pwd`:$PATH
 
-%configure \
-    --enable-liboil \
-    --enable-pyecasound \
-    --disable-dependency-tracking \
-    --disable-liblilv \
-    --enable-sys-readline \
-    --with-python-includes=%{_includedir}/python2.7 \
-    --with-python-modules=%{_libdir}/python2.7
+%configure
 
 %make
 
-# (eandry) the tests dies at "pyecasound" on bs submit,
-# but build fine with mdvsys build, so disabling for submission
-#%%check
-#%%make check
 
 
 %install
