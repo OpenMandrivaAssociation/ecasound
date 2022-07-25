@@ -13,7 +13,7 @@ Source0:	http://ecasound.seul.org/download/%{name}-%{version}.tar.gz
 Source1:	%{name}16.png
 Source2:	%{name}32.png
 Source3:	%{name}48.png
-Patch0:		%{name}-2.7.0-shared.diff
+#Patch0:		%{name}-2.7.0-shared.diff
 Patch1:		%{name}-shellbang_fix.patch
 Patch2:		%{name}-linkage_fix.diff
 Patch3:		%{name}-2.6.0-link-pyecasound.patch
