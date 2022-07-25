@@ -14,9 +14,9 @@ Source1:	%{name}16.png
 Source2:	%{name}32.png
 Source3:	%{name}48.png
 #Patch0:		%{name}-2.7.0-shared.diff
-Patch1:		%{name}-shellbang_fix.patch
-Patch2:		%{name}-linkage_fix.diff
-Patch3:		%{name}-2.6.0-link-pyecasound.patch
+#Patch1:		%{name}-shellbang_fix.patch
+#Patch2:		%{name}-linkage_fix.diff
+#Patch3:		%{name}-2.6.0-link-pyecasound.patch
 Requires(post,postun): 	desktop-file-utils
 BuildRequires:	pkgconfig(jack)
 BuildRequires:	pkgconfig(alsa) >= 0.9.0
@@ -138,9 +138,9 @@ ecawave and ecamegapedal that directly link against %{name} libraries.
 %prep
 %setup -q
 #patch0 -p0
-%patch1 -p1
-%patch2 -p0
-%patch3 -p1
+#patch1 -p1
+#patch2 -p0
+#patch3 -p1
 
 # lib64 fix
 perl -pi -e "s|/lib/|/%{_lib}/|g" configure*
