@@ -31,7 +31,7 @@ BuildRequires:	pkgconfig(liblo)
 BuildRequires:	pkgconfig(lilv-0)
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
-BuildRequires:	multiarch-utils >= 1.0.3
+#BuildRequires:	multiarch-utils >= 1.0.3
 
 %define	python_compile_opt	python2 -O -c "import compileall; compileall.compile_dir('.')"
 %define	python_compile		python2 -c "import compileall; compileall.compile_dir('.')"
