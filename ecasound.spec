@@ -137,7 +137,7 @@ ecawave and ecamegapedal that directly link against %{name} libraries.
 
 %prep
 %setup -q
-%patch0 -p0
+#patch0 -p0
 %patch1 -p1
 %patch2 -p0
 %patch3 -p1
