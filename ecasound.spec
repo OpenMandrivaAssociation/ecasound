@@ -4,7 +4,7 @@
 
 Summary:	Sound processing, multitrack recording, and mixing tools
 Name:		ecasound
-Version:	2.9.1
+Version:	2.9.3
 Release:	1
 License: 	GPLv2+
 Group:		Sound
