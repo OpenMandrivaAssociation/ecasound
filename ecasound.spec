@@ -8,7 +8,7 @@ Version:	2.9.1
 Release:	1
 License: 	GPLv2+
 Group:		Sound
-URL: 		http://www.eca.cx/ecasound/
+URL: 		https://www.eca.cx/ecasound/
 Source0:	http://ecasound.seul.org/download/%{name}-%{version}.tar.gz
 Source1:	%{name}16.png
 Source2:	%{name}32.png
