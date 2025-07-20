@@ -1,6 +1,7 @@
---- kvutils/Makefile.am.orig	2009-04-19 19:10:13.000000000 +0200
-+++ kvutils/Makefile.am	2009-12-31 15:04:29.000000000 +0100
-@@ -16,6 +16,8 @@
+diff -rupN ecasound-2.9.3.old/kvutils/Makefile.am ecasound-2.9.3/kvutils/Makefile.am
+--- ecasound-2.9.3.old/kvutils/Makefile.am	2014-02-25 12:16:53.000000000 +0100
++++ ecasound-2.9.3/kvutils/Makefile.am	2021-06-21 18:38:17.602861990 +0200
+@@ -16,6 +16,8 @@ else
  lib_LTLIBRARIES = libkvutils.la
  endif
  
@@ -9,7 +10,7 @@
  TESTS = libkvutils_tester
  check_PROGRAMS = $(TESTS)
  
-@@ -56,7 +58,7 @@
+@@ -56,7 +58,7 @@ kvutil_headers = 	kvu_dbc.h \
  			kvu_value_queue.h
  
  libkvutils_la_SOURCES = $(kvutil_sources) $(kvutil_headers)
@@ -18,9 +19,10 @@
  
  libkvutils_debug_la_SOURCES = $(libkvutils_la_SOURCES)
  libkvutils_debug_la_LDFLAGS = $(libkvutils_la_LDFLAGS)
---- libecasound/Makefile.am.orig	2009-04-19 20:04:27.000000000 +0200
-+++ libecasound/Makefile.am	2009-12-31 15:06:09.000000000 +0100
-@@ -363,7 +363,7 @@
+diff -rupN ecasound-2.9.3.old/libecasound/Makefile.am ecasound-2.9.3/libecasound/Makefile.am
+--- ecasound-2.9.3.old/libecasound/Makefile.am	2014-02-25 12:16:53.000000000 +0100
++++ ecasound-2.9.3/libecasound/Makefile.am	2021-06-21 18:39:18.790506047 +0200
+@@ -368,7 +368,7 @@ libecasound_tester_src = \
  
  libecasound_la_SOURCES = $(ecasound_common1_src) $(ecasound_common2_src)
  libecasound_debug_la_SOURCES = $(ecasound_common1_src) $(ecasound_common2_src)
@@ -29,9 +31,9 @@
  libecasound_la_LIBADD = $(eca_libadd)
  libecasound_debug_la_LDFLAGS = $(libecasound_la_LDFLAGS)
  libecasound_debug_la_LIBADD = $(libecasound_la_LIBADD)
-
---- libecasound/plugins/Makefile.am.shared	2009-11-12 17:21:35.000000000 +0100
-+++ libecasound/plugins/Makefile.am	2009-11-12 17:23:27.000000000 +0100
+diff -rupN ecasound-2.9.3.old/libecasound/plugins/Makefile.am ecasound-2.9.3/libecasound/plugins/Makefile.am
+--- ecasound-2.9.3.old/libecasound/plugins/Makefile.am	2014-02-25 12:16:53.000000000 +0100
++++ ecasound-2.9.3/libecasound/plugins/Makefile.am	2021-06-21 18:40:02.464536834 +0200
 @@ -105,7 +105,7 @@ plugin_all_sources = 	$(all_af_src) \
  libecasound_plugins_la_SOURCES          = audioio_dummy.cpp $(plugin_cond_sources)
  EXTRA_libecasound_plugins_la_SOURCES    = $(plugin_all_sources)
@@ -41,9 +43,9 @@
  
  libecasound_plugins_debug_la_SOURCES	= $(libecasound_plugins_la_SOURCES)
  EXTRA_libecasound_plugins_debug_la_SOURCES = $(EXTRA_libecasound_plugins_la_SOURCES)
-
---- libecasoundc/Makefile.am.shared	2009-11-12 17:25:27.000000000 +0100
-+++ libecasoundc/Makefile.am	2009-11-12 17:26:29.000000000 +0100
+diff -rupN ecasound-2.9.3.old/libecasoundc/Makefile.am ecasound-2.9.3/libecasoundc/Makefile.am
+--- ecasound-2.9.3.old/libecasoundc/Makefile.am	2014-02-25 12:16:53.000000000 +0100
++++ ecasound-2.9.3/libecasoundc/Makefile.am	2021-06-21 18:40:37.798434300 +0200
 @@ -14,9 +14,9 @@ AUTOMAKE_OPTIONS = foreign
  # !!!
  # remember to update eca-version.cpp
@@ -55,4 +57,4 @@
 +eca_ldflags = -s -version-info @LIBECASOUNDC_VERSION@:0:@LIBECASOUNDC_VERSION_AGE@
  endif
  
- INCLUDES = -I$(srcdir)
+ AM_CPPFLAGS = -I$(srcdir)

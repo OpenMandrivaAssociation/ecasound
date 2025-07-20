@@ -1,0 +1,24 @@
+diff -rupN ecasound-2.9.3.old/libecasound/libecasound-config.in ecasound-2.9.3/libecasound/libecasound-config.in
+--- ecasound-2.9.3.old/libecasound/libecasound-config.in	2009-04-10 21:10:21.000000000 +0200
++++ ecasound-2.9.3/libecasound/libecasound-config.in	2021-06-21 18:49:22.000125527 +0200
+@@ -41,7 +41,7 @@ do
+ 	  case "$libdir" in
+ 	      /usr/lib);;
+ 	      *)
+-		  flags="$flags -Wl,--rpath -Wl,$libdir" ;;
++		  flags="$flags -Wl,$libdir" ;;
+ 	  esac
+ 	  ;;
+     --cflags)
+diff -rupN ecasound-2.9.3.old/libecasoundc/libecasoundc-config.in ecasound-2.9.3/libecasoundc/libecasoundc-config.in
+--- ecasound-2.9.3.old/libecasoundc/libecasoundc-config.in	2007-08-25 15:52:26.000000000 +0200
++++ ecasound-2.9.3/libecasoundc/libecasoundc-config.in	2021-06-21 18:49:37.250368379 +0200
+@@ -34,7 +34,7 @@ do
+ 	  case "$libdir" in
+ 	      /usr/lib);;
+ 	      *)
+-		  flags="$flags -Wl,--rpath -Wl,$libdir" ;;
++		  flags="$flags -Wl,$libdir" ;;
+ 	  esac
+ 	  ;;
+     --cflags)

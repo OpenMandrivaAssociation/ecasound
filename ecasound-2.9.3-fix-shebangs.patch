@@ -1,0 +1,42 @@
+diff -rupN ecasound-2.9.3.old/ecatools/ecamonitor ecasound-2.9.3/ecatools/ecamonitor
+--- ecasound-2.9.3.old/ecatools/ecamonitor	2020-01-04 20:07:53.000000000 +0100
++++ ecasound-2.9.3/ecatools/ecamonitor	2021-06-24 11:21:51.930362133 +0200
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/python
+ 
+ # ------------------------------------------------------------------------
+ # ecamonitor: Ecasound monitor client implemented using NetECI
+diff -rupN ecasound-2.9.3.old/pyecasound/ecacontrol.py ecasound-2.9.3/pyecasound/ecacontrol.py
+--- ecasound-2.9.3.old/pyecasound/ecacontrol.py	2020-01-06 19:17:09.000000000 +0100
++++ ecasound-2.9.3/pyecasound/ecacontrol.py	2021-06-24 11:21:40.203550658 +0200
+@@ -1,3 +1,4 @@
++#!/usr/bin/python
+ """Native Python ECI (ecasound control interface) implementation"""
+ from __future__ import print_function
+ import sys
+diff -rupN ecasound-2.9.3.old/pyecasound/eci.py ecasound-2.9.3/pyecasound/eci.py
+--- ecasound-2.9.3.old/pyecasound/eci.py	2020-01-06 19:17:09.000000000 +0100
++++ ecasound-2.9.3/pyecasound/eci.py	2021-06-24 11:21:40.203550658 +0200
+@@ -1,3 +1,4 @@
++#!/usr/bin/python
+ """
+ # eci.ECI -- A higher-level interface to pyeca.
+ # Copyright 2001 Eric S. Tiedemann (est@hyperreal.org)
+diff -rupN ecasound-2.9.3.old/pyecasound/pyeca.py ecasound-2.9.3/pyecasound/pyeca.py
+--- ecasound-2.9.3.old/pyecasound/pyeca.py	2020-01-04 20:07:53.000000000 +0100
++++ ecasound-2.9.3/pyecasound/pyeca.py	2021-06-24 11:21:40.203550658 +0200
+@@ -1,3 +1,4 @@
++#!/usr/bin/python
+ """Wrapper module which loads pyecasound
+ (python module for Ecasound Control Interface).
+ """
+diff -rupN ecasound-2.9.3.old/rubyecasound/stresstest.rb ecasound-2.9.3/rubyecasound/stresstest.rb
+--- ecasound-2.9.3.old/rubyecasound/stresstest.rb	2014-01-01 10:54:51.000000000 +0100
++++ ecasound-2.9.3/rubyecasound/stresstest.rb	2021-06-24 11:21:40.203550658 +0200
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/ruby
+ 
+ # -----------------------------------------------------------------------
+ # Runs a stress test using the ruby-ecasound ControlInterface

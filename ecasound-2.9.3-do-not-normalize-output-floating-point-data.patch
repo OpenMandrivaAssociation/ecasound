@@ -1,0 +1,113 @@
+diff -rupN ecasound-2.9.3.old/libecasound/audioio-buffered.cpp ecasound-2.9.3/libecasound/audioio-buffered.cpp
+--- ecasound-2.9.3.old/libecasound/audioio-buffered.cpp	2009-03-23 00:21:40.000000000 +0100
++++ ecasound-2.9.3/libecasound/audioio-buffered.cpp	2021-12-30 13:43:39.311191469 +0100
+@@ -1,6 +1,6 @@
+ // ------------------------------------------------------------------------
+ // audioio-buffered.cpp: A lower level interface for audio I/O objects
+-// Copyright (C) 1999-2002,2008,2009 Kai Vehmanen
++// Copyright (C) 1999-2002,2008,2009,2020 Kai Vehmanen
+ //
+ // This program is free software; you can redistribute it and/or modify
+ // it under the terms of the GNU General Public License as published by
+@@ -108,11 +108,13 @@ void AUDIO_IO_BUFFERED::write_buffer(SAM
+   if (interleaved_channels() == true) {
+     sbuf->export_interleaved(iobuf_uchar_repp,
+ 			     sample_format(),
++				 sample_coding(),
+ 			     channels());
+   }
+   else {
+     sbuf->export_noninterleaved(iobuf_uchar_repp,
+ 				sample_format(),
++				sample_coding(),
+ 				channels());
+   }
+ 
+diff -rupN ecasound-2.9.3.old/libecasound/plugins/audioio_sndfile.cpp ecasound-2.9.3/libecasound/plugins/audioio_sndfile.cpp
+--- ecasound-2.9.3.old/libecasound/plugins/audioio_sndfile.cpp	2019-06-15 11:19:14.000000000 +0200
++++ ecasound-2.9.3/libecasound/plugins/audioio_sndfile.cpp	2021-12-30 13:44:20.728425176 +0100
+@@ -1,6 +1,6 @@
+ // ------------------------------------------------------------------------
+ // audioio_sndfile.cpp: Interface to the sndfile library.
+-// Copyright (C) 2003-2004,2006-2007,2009,2012 Kai Vehmanen
++// Copyright (C) 2003-2004,2006-2007,2009,2012,2020 Kai Vehmanen
+ // Copyright (C) 2004 Jesse Chappell
+ //
+ // Attributes:
+@@ -410,6 +410,7 @@ void SNDFILE_INTERFACE::write_buffer(SAM
+ 
+   sbuf->export_interleaved(get_iobuf(),
+                            audioio_sndfile_sfmt,
++						   sample_coding(),
+                            channels());
+   write_samples(get_iobuf(), sbuf->length_in_samples());
+   change_position_in_samples(sbuf->length_in_samples());
+diff -rupN ecasound-2.9.3.old/libecasound/samplebuffer.cpp ecasound-2.9.3/libecasound/samplebuffer.cpp
+--- ecasound-2.9.3.old/libecasound/samplebuffer.cpp	2012-05-17 22:51:49.000000000 +0200
++++ ecasound-2.9.3/libecasound/samplebuffer.cpp	2021-12-30 13:46:19.246712132 +0100
+@@ -1,6 +1,6 @@
+ // ------------------------------------------------------------------------
+ // samplebuffer.cpp: Class representing a buffer of audio samples.
+-// Copyright (C) 1999-2005,2009 Kai Vehmanen
++// Copyright (C) 1999-2005,2009,2020 Kai Vehmanen
+ //
+ // Attributes:
+ //     eca-style-version: 3
+@@ -699,6 +699,7 @@ void SAMPLE_BUFFER::export_helper(unsign
+  */
+ void SAMPLE_BUFFER::export_interleaved(unsigned char* target,
+ 				       ECA_AUDIO_FORMAT::Sample_format fmt,
++					   ECA_AUDIO_FORMAT::Sample_coding coding,
+ 				       channel_size_t chcount) 
+ {
+   // --------
+@@ -712,9 +713,10 @@ void SAMPLE_BUFFER::export_interleaved(u
+   for(buf_size_t isize = 0; isize < buffersize_rep; isize++) {
+     for(channel_size_t c = 0; c < chcount; c++) {
+       sample_t stemp = buffer[c][isize];
+-      if (stemp > SAMPLE_SPECS::impl_max_value) stemp = SAMPLE_SPECS::impl_max_value;
+-      else if (stemp < SAMPLE_SPECS::impl_min_value) stemp = SAMPLE_SPECS::impl_min_value;
+-
++	  if (coding != ECA_AUDIO_FORMAT::sc_float) {
++		  if (stemp > SAMPLE_SPECS::impl_max_value) stemp = SAMPLE_SPECS::impl_max_value;
++		  else if (stemp < SAMPLE_SPECS::impl_min_value) stemp = SAMPLE_SPECS::impl_min_value;
++	  }
+       SAMPLE_BUFFER::export_helper(target, &osize, stemp, fmt);
+     }
+   }
+@@ -737,6 +739,7 @@ void SAMPLE_BUFFER::export_interleaved(u
+  */
+ void SAMPLE_BUFFER::export_noninterleaved(unsigned char* target,
+ 					  ECA_AUDIO_FORMAT::Sample_format fmt,
++					  ECA_AUDIO_FORMAT::Sample_coding coding,
+ 					  channel_size_t chcount)
+ {
+   // --------
+@@ -750,9 +753,10 @@ void SAMPLE_BUFFER::export_noninterleave
+   for(channel_size_t c = 0; c < chcount; c++) {
+     for(buf_size_t isize = 0; isize < buffersize_rep; isize++) {
+       sample_t stemp = buffer[c][isize];
+-      if (stemp > SAMPLE_SPECS::impl_max_value) stemp = SAMPLE_SPECS::impl_max_value;
+-      else if (stemp < SAMPLE_SPECS::impl_min_value) stemp = SAMPLE_SPECS::impl_min_value;
+-      
++	  if (coding != ECA_AUDIO_FORMAT::sc_float) {
++		  if (stemp > SAMPLE_SPECS::impl_max_value) stemp = SAMPLE_SPECS::impl_max_value;
++		  else if (stemp < SAMPLE_SPECS::impl_min_value) stemp = SAMPLE_SPECS::impl_min_value;
++	  }
+       SAMPLE_BUFFER::export_helper(target, &osize, stemp, fmt);
+     }
+   }
+diff -rupN ecasound-2.9.3.old/libecasound/samplebuffer.h ecasound-2.9.3/libecasound/samplebuffer.h
+--- ecasound-2.9.3.old/libecasound/samplebuffer.h	2015-03-15 14:01:51.000000000 +0100
++++ ecasound-2.9.3/libecasound/samplebuffer.h	2021-12-30 13:47:05.380673976 +0100
+@@ -117,8 +117,8 @@ class SAMPLE_BUFFER {
+ 
+   void import_interleaved(unsigned char* source, buf_size_t samples, ECA_AUDIO_FORMAT::Sample_format fmt, channel_size_t ch);
+   void import_noninterleaved(unsigned char* source, buf_size_t samples, ECA_AUDIO_FORMAT::Sample_format fmt, channel_size_t ch);
+-  void export_interleaved(unsigned char* target, ECA_AUDIO_FORMAT::Sample_format fmt, channel_size_t ch);
+-  void export_noninterleaved(unsigned char* target, ECA_AUDIO_FORMAT::Sample_format fmt, channel_size_t ch);
++  void export_interleaved(unsigned char* target, ECA_AUDIO_FORMAT::Sample_format fmt, ECA_AUDIO_FORMAT::Sample_coding coding, channel_size_t ch);
++  void export_noninterleaved(unsigned char* target, ECA_AUDIO_FORMAT::Sample_format fmt, ECA_AUDIO_FORMAT::Sample_coding coding, channel_size_t ch);
+   
+   /*@}*/
+         

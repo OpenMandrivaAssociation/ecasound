@@ -1,6 +1,7 @@
---- libecasound/Makefile.am	2008-07-09 08:26:34.000000000 -0400
-+++ libecasound/Makefile.am.oden	2008-07-09 08:36:35.000000000 -0400
-@@ -34,7 +34,7 @@
+diff -rupN ecasound-2.9.3.old/libecasound/Makefile.am ecasound-2.9.3/libecasound/Makefile.am
+--- ecasound-2.9.3.old/libecasound/Makefile.am	2021-06-21 18:39:18.000000000 +0200
++++ ecasound-2.9.3/libecasound/Makefile.am	2021-06-21 18:46:03.543630438 +0200
+@@ -34,7 +34,7 @@ else
  eca_libadd =  	$(top_builddir)/libecasound/plugins/libecasound_plugins.la $(ECA_S_EXTRA_LIBS)
  endif
  
