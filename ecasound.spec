@@ -27,6 +27,11 @@ Patch5:		ecasound-2.9.3-use-SIGTERM-to-avoid-messing-up-the-console.patch
 Patch6:		ecasound-2.9.3-do-not-normalize-output-floating-point-data.patch
 Patch7:		ecasound-2.9.3-glibc2.36.patch
 #BuildRequires:	multiarch-utils >= 1.0.3
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	ruby
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(audiofile)
