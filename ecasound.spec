@@ -26,6 +26,8 @@ Patch4:		ecasound-2.9.3-fix-lv2-check.patch
 Patch5:		ecasound-2.9.3-use-SIGTERM-to-avoid-messing-up-the-console.patch
 Patch6:		ecasound-2.9.3-do-not-normalize-output-floating-point-data.patch
 Patch7:		ecasound-2.9.3-glibc2.36.patch
+# Give parallel make a recipe for the plugins convenience library.
+Patch8:		ecasound-2.9.3-plugins-parallel.patch
 #BuildRequires:	multiarch-utils >= 1.0.3
 BuildRequires:	autoconf
 BuildRequires:	automake

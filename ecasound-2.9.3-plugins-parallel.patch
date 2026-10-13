@@ -1,0 +1,16 @@
+--- ecasound-2.9.3/libecasound/Makefile.am	2026-10-13 08:29:16.065493828 +0200
++++ ecasound-2.9.3/libecasound/Makefile.am	2026-10-13 08:29:16.081470719 +0200
+@@ -33,6 +33,13 @@
+ else
+ eca_libadd =  	$(top_builddir)/libecasound/plugins/libecasound_plugins.la $(ECA_S_EXTRA_LIBS)
+ endif
++# automake has no recipe for a $(top_builddir) convenience library, so a
++# parallel build fails before plugins/ has finished linking it.
++$(top_builddir)/libecasound/plugins/libecasound_plugins.la:
++	$(MAKE) $(AM_MAKEFLAGS) -C $(top_builddir)/libecasound/plugins libecasound_plugins.la
++$(top_builddir)/libecasound/plugins/libecasound_plugins_debug.la:
++	$(MAKE) $(AM_MAKEFLAGS) -C $(top_builddir)/libecasound/plugins libecasound_plugins_debug.la
++
+ 
+ eca_ldflags = -version-info @LIBECASOUND_VERSION@:0:@LIBECASOUND_VERSION_AGE@ ../kvutils/libkvutils.la
+ 
