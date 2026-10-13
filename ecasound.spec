@@ -203,11 +203,12 @@ export CXXFLAGS="%{optflags} -DPIC  -std=c++11"
 	--with-python-modules="%{_libdir}/python%{py3_ver}" \
 	--enable-python-force-site-packages
 
-%make_build
+# slibtoolize installs an ltmain.sh stub, so ./libtool never writes the .la files.
+%make_build LIBTOOL=slibtool-shared
 
 
 %install
-%make_install ECA_S_RUBY_SITEDIR="%{ruby_sitelibdir}"
+%make_install LIBTOOL=slibtool-shared ECA_S_RUBY_SITEDIR="%{ruby_sitelibdir}"
 
 #pushd pyecasound
 #python_compile_opt
